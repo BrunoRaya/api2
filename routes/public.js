@@ -29,7 +29,7 @@ router.post('/cadastroProfissional', async (req, res) => {
             },
           });
     
-        console.log("Usuário criado no banco:", userDB);
+        console.log("Usuário criado no banco:", professionalDB);
         res.status(201).json(professionalDB);
     } catch (error) {
       console.error("Erro ao criar usuário:", {
