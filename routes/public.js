@@ -14,7 +14,7 @@ router.post('/cadastroProfissional', async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashPassword = await bcrypt.hash(user.password, salt);
     
-        const userDB = await prisma.user.create({
+        const professionalDB = await prisma.user.create({
             data: {
               email: user.email,
               name: user.name,
@@ -30,7 +30,7 @@ router.post('/cadastroProfissional', async (req, res) => {
           });
     
         console.log("Usuário criado no banco:", userDB);
-        res.status(201).json(userDB);
+        res.status(201).json(professionalDB);
     } catch (error) {
       console.error("Erro ao criar usuário:", {
           message: error.message,
