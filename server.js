@@ -25,7 +25,7 @@ app.use(express.json());
 app.use('/api', publico);
 
 // Definir a porta
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 4100;
 
 // Iniciar o servidor na porta definida
 app.listen(port, () => console.log(`Server running on port ${port}`));

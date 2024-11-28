@@ -17,6 +17,7 @@ model User {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   email       String   @unique
   name        String
+  profession  String
   address     Address
   cep         String
   complemento String

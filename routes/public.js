@@ -17,8 +17,8 @@ router.post('/cadastroProfissional', async (req, res) => {
         const userDB = await prisma.user.create({
             data: {
               email: user.email,
-              profession: user.profession,
               name: user.name,
+              profession: user.profession,
               address: {
                 set: user.address,
               },
