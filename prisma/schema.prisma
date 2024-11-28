@@ -13,7 +13,7 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model User {
+model Professional {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   email       String   @unique
   name        String
@@ -23,6 +23,8 @@ model User {
   complemento String
   cpf         String   @unique
   password    String   @unique
+
+  @@map("Professional")
 }
 
 type Address {
