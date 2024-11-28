@@ -10,21 +10,21 @@ router.post('/cadastroProfissional', async (req, res) => {
     try {
         console.log("Dados recebidos:", req.body);
     
-        const user = req.body;
+        const professional = req.body;
         const salt = await bcrypt.genSalt(10);
-        const hashPassword = await bcrypt.hash(user.password, salt);
+        const hashPassword = await bcrypt.hash(professional.password, salt);
     
-        const professionalDB = await prisma.user.create({
+        const professionalDB = await prisma.professional.create({
             data: {
-              email: user.email,
-              name: user.name,
-              profession: user.profession,
+              email: professional.email,
+              name: professional.name,
+              profession: professional.profession,
               address: {
-                set: user.address,
+                set: professional.address,
               },
-              cep: user.cep,
-              complemento: user.complemento,
-              cpf: user.cpf,
+              cep: professional.cep,
+              complemento: professional.complemento,
+              cpf: professional.cpf,
               password: hashPassword,
             },
           });
