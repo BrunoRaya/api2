@@ -34,7 +34,8 @@ router.post('/cadastroProfissional', async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(professional.password, salt);
 
-    const professionalDB = await prisma.Professional.create({
+    // Correção aqui: nome do modelo é 'professional' (em minúsculas)
+    const professionalDB = await prisma.professional.create({
       data: {
         email: professional.email,
         name: professional.name,
