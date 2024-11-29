@@ -10,12 +10,18 @@ const router = express.Router();
 // Teste de conexão com o modelo Professional
 (async () => {
   try {
+    console.log("Tentando buscar profissionais...");
     const testProfessional = await prisma.professional.findMany();
-    console.log("Conexão com o modelo Professional bem-sucedida:", testProfessional);
+    console.log("Profissionais encontrados:", testProfessional);
   } catch (error) {
-    console.error("Erro ao testar conexão com o modelo Professional:", error);
+    console.error("Erro ao buscar profissionais:", {
+      message: error.message,
+      stack: error.stack,
+      details: error,
+    });
   }
 })();
+
 
 router.post('/cadastroProfissional', async (req, res) => {
   try {
