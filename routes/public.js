@@ -1,30 +1,11 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
 import { PrismaClient } from '@prisma/client';
-import { MongoClient } from 'mongodb'; // Adicionando a importação do MongoClient
 
 const prisma = new PrismaClient({
   log: ['query', 'info', 'warn', 'error'], // Adiciona logs para depuração
 });
 const router = express.Router();
-
-// Teste de conexão com o MongoDB diretamente (não usando o Prisma)
-const client = new MongoClient(process.env.DATABASE_URL);
-
-(async () => {
-  try {
-    console.log("Tentando conectar diretamente ao MongoDB...");
-    await client.connect();
-    const db = client.db(); // Nome do banco definido no MongoDB
-    const professionals = db.collection("Professional");
-    
-    // Verifica e imprime todos os profissionais na coleção
-    const professionalsList = await professionals.find({}).toArray();
-    console.log("Profissionais encontrados no MongoDB diretamente:", professionalsList);
-  } catch (error) {
-    console.error("Erro ao buscar profissionais diretamente no MongoDB:", error);
-  }
-})();
 
 router.post('/cadastroProfissional', async (req, res) => {
   try {
@@ -34,7 +15,9 @@ router.post('/cadastroProfissional', async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(professional.password, salt);
 
-    // Correção aqui: nome do modelo é 'professional' (em minúsculas)
+    // Verifique se o modelo está acessível
+    console.log(prisma.professional);
+
     const professionalDB = await prisma.professional.create({
       data: {
         email: professional.email,
@@ -50,7 +33,7 @@ router.post('/cadastroProfissional', async (req, res) => {
       },
     });
 
-    console.log("Profissional criado no banco via Prisma:", professionalDB);
+    console.log("Profissional criado no banco:", professionalDB);
     res.status(201).json(professionalDB);
   } catch (error) {
     console.error("Erro ao criar profissional:", {
