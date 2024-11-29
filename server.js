@@ -1,31 +1,30 @@
 import express from 'express';
-import { PrismaClient } from '@prisma/client';
+import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import publico from './routes/public.js';
+import publicRouter from './routes/public.js';
 
-// Carregar variáveis de ambiente
+// Carregar as variáveis de ambiente
 dotenv.config();
 
-// Criar a instância do express
-const app = express();
-
-// Criar a instância do Prisma
-const prisma = new PrismaClient({
-  datasources: {
-    db: {
-      url: process.env.DATABASE_URL 
-    }
-  }
+// Conectar ao MongoDB
+mongoose.connect(process.env.DATABASE_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+}).then(() => {
+  console.log('Conectado ao MongoDB');
+}).catch((error) => {
+  console.error('Erro ao conectar ao MongoDB:', error);
 });
 
-// Usar o middleware para analisar o corpo da requisição como JSON
-app.use(express.json());
+// Configurar o servidor Express
+const app = express();
+app.use(express.json()); // Para processar o corpo das requisições em JSON
 
-// Definir a rota para /api
-app.use('/api', publico);
+// Usar as rotas
+app.use('/api', publicRouter);
 
-// Definir a porta
+// Iniciar o servidor
 const port = process.env.PORT || 4100;
-
-// Iniciar o servidor na porta definida
-app.listen(port, () => console.log(`Server running on port ${port}`));
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
