@@ -16,7 +16,7 @@ model Professional {
   cep         String
   complemento String
   cpf         String   @unique
-  password    String   @unique
+  password    String   
 
   @@map("Professional")
 }
