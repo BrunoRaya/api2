@@ -16,7 +16,7 @@ const professionalSchema = new mongoose.Schema({
   complemento: String,
   cpf: { type: String, unique: true },
   password: String,
-}, { timestamps: true });
+})
 
 const Professional = mongoose.model('Professional', professionalSchema);
 
