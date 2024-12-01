@@ -15,6 +15,7 @@ const professionalSchema = new mongoose.Schema({
   cep: String,
   complemento: String,
   cpf: { type: String, unique: true },
+  valor: Double,
   password: String,
 })
 
@@ -39,6 +40,7 @@ router.post('/cadastroProfissional', async (req, res) => {
       cep: professional.cep,
       complemento: professional.complemento,
       cpf: professional.cpf,
+      valor: professional.valor,
       password: hashPassword,
     });
 
