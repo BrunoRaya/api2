@@ -2,7 +2,6 @@ import express from 'express';
 import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
 
-// Definir o modelo Professional com Mongoose
 const professionalSchema = new mongoose.Schema({
   email: { type: String, unique: true },
   name: String,
@@ -15,9 +14,9 @@ const professionalSchema = new mongoose.Schema({
   cep: String,
   complemento: String,
   cpf: { type: String, unique: true },
-  valor: Double,
+  valor: { type: mongoose.Schema.Types.Decimal128 }, 
   password: String,
-})
+});
 
 const Professional = mongoose.model('Professional', professionalSchema);
 
@@ -31,7 +30,6 @@ router.post('/cadastroProfissional', async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(professional.password, salt);
 
-    // Criação do novo profissional no banco de dados
     const newProfessional = new Professional({
       email: professional.email,
       name: professional.name,
@@ -40,11 +38,10 @@ router.post('/cadastroProfissional', async (req, res) => {
       cep: professional.cep,
       complemento: professional.complemento,
       cpf: professional.cpf,
-      valor: professional.valor,
+      valor: mongoose.Types.Decimal128.fromString(professional.valor.toString()), 
       password: hashPassword,
     });
 
-    // Salvar o profissional no banco de dados
     const savedProfessional = await newProfessional.save();
 
     console.log("Profissional criado no banco:", savedProfessional);
