@@ -14,7 +14,7 @@ const professionalSchema = new mongoose.Schema({
   cep: String,
   complemento: String,
   cpf: { type: String, unique: true },
-  valor: String, 
+  valor: Number, 
   password: String,
 });
 
