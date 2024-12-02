@@ -43,7 +43,7 @@ router.post('/cadastroProfissional', async (req, res) => {
       cep: professional.cep,
       complemento: professional.complemento,
       cpf: professional.cpf,
-      valor: mongoose.Types.Decimal128.fromString(professional.valor.toString()), 
+      valor: professional.valor, 
       password: hashPassword,
     });
 
