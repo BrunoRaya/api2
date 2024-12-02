@@ -14,7 +14,7 @@ const professionalSchema = new mongoose.Schema({
   cep: String,
   complemento: String,
   cpf: { type: String, unique: true },
-  valor: { type: mongoose.Schema.Types.Decimal128 }, 
+  valor: String, 
   password: String,
 });
 
@@ -27,6 +27,11 @@ router.post('/cadastroProfissional', async (req, res) => {
     console.log("Dados recebidos:", req.body);
 
     const professional = req.body;
+
+    if (!professional.valor) {
+      return res.status(400).json({ message: "O campo 'valor' é obrigatório." });
+    }
+
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(professional.password, salt);
 
@@ -55,5 +60,6 @@ router.post('/cadastroProfissional', async (req, res) => {
     res.status(500).json({ message: "Erro no servidor, tente novamente!", error: error.message });
   }
 });
+
 
 export default router;
